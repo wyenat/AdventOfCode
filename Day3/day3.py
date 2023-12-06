@@ -36,7 +36,7 @@ def around(matrix, x_pos, y_pos, propagated) -> list:
     if isValidNumber(matrix, x_pos+ 1, y_pos+ 1):
         result.append(propagate(matrix, x_pos+ 1, y_pos+ 1, propagated))
     print(f"For char {matrix[y_pos][x_pos]} at {x_pos}, {y_pos} : {result=}")
-    return filter(len, result)
+    return list(filter(len, result))
 
 def find_special_char(line):
     special_char_position = []
@@ -48,9 +48,9 @@ def find_special_char(line):
 def day3():
     input_file = "input.file"
     matrix = []
-    total = 0
-    
-    # Part 1
+    part_1_total = 0
+    part_2_total = 0
+
     with open(input_file, "r") as f:
         while line := f.readline():
           matrix.append(line)
@@ -60,9 +60,11 @@ def day3():
         for x_pos in find_special_char(line):
             propagated[y_pos][x_pos] = True
             line_result = around(matrix, x_pos, y_pos, propagated)
-            total += sum(map(int, line_result))
-    
-    print(total)
+            if len(list(line_result)) == 2:
+                part_2_total += int(line_result[0]) * int(line_result[1])
+            part_1_total += sum(map(int, line_result))
+    print(part_1_total)
+    print(part_2_total)
 
     
 
